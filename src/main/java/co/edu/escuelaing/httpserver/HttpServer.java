@@ -55,6 +55,11 @@ public class HttpServer {
      */
     private static volatile boolean running = true;
 
+    /**
+     * Runs the HTTP server on the specified port.
+     *
+     * @param port the port number
+     */
     public static void runServer(int port) throws IOException, URISyntaxException {
         loadServices();
 
@@ -65,11 +70,7 @@ public class HttpServer {
             System.err.println("Could not listen on port: " + port);
             return;
         }
-
-        // Thread pool for handling clients
         ExecutorService threadPool = Executors.newFixedThreadPool(10);
-
-        // Shutdown hook for graceful shutdown
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             System.out.println("\nShutdown hook triggered. Stopping server...");
             running = false;
@@ -88,9 +89,7 @@ public class HttpServer {
             }
             System.out.println("Server stopped gracefully.");
         }));
-
         System.out.println("Server started on port " + port + ". Press Ctrl+C to stop.");
-
         while (running) {
             try {
                 final Socket clientSocket = serverSocket.accept();
@@ -101,8 +100,6 @@ public class HttpServer {
                 }
             }
         }
-
-        // Cleanup if not already done by shutdown hook
         threadPool.shutdown();
         try {
             if (!threadPool.awaitTermination(10, TimeUnit.SECONDS)) {
@@ -113,6 +110,11 @@ public class HttpServer {
         }
     }
 
+    /**
+     * Handles a client connection.
+     *
+     * @param clientSocket the client socket
+     */
     private static void handleClient(Socket clientSocket) {
         try (
                 InputStream inStream = clientSocket.getInputStream();

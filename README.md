@@ -1,17 +1,23 @@
-# MicroSpringBoot
+# Modularization with Virtualization and Introduction to Docker
 
-### Minimal Web Server & IoC Framework in Java
+This project consists of building a modularized web application and deploying it on AWS using EC2 and Docker. For the implementation, a custom micro-framework was developed in Java (**SPRING IS NOT USED**), which allows:
 
-A lightweight prototype of a **Java-based web server** (similar to Apache) that can:
+- Serving static content (HTML, images, CSS, JS).
+- Exposing REST services through custom annotations and reflection.
+- Managing Inversion of Control (IoC) in a simple way for web applications.
+- Handling multiple clients concurrently using a thread pool.
+- Performing a graceful server shutdown to avoid losing in-progress requests.
 
-- Serve static content (HTML and PNG images).  
-- Provide a simple **IoC (Inversion of Control) framework** to build web applications from POJOs using annotations.  
-- Demonstrate **Java reflection capabilities** by dynamically discovering and loading beans.  
-- Handle multiple (non-concurrent) requests.  
+The goal of this assignment is to demonstrate modularization, virtualization, and automated deployment of Java applications in the cloud, using modern tools such as Docker and AWS EC2, but without relying on external frameworks like Spring.
 
-As part of the prototype, an example web application is included to show how a POJO can be exposed as a REST service.
+The custom framework implements:
 
+- Automatic discovery of controllers and routes using annotations (`@RestController`, `@GetMapping`, `@RequestParam`).
+- Concurrent connection handling using `ExecutorService`.
+- Graceful shutdown with Java's shutdown hook.
+- Deployment and execution in Docker containers, facilitating portability and scalability.
 
+The included example application shows how to expose a POJO as a REST service and how to serve static files from the server.
 
 ## Verifying Java and Maven Versions
 
@@ -31,7 +37,6 @@ Check Maven version:
 mvn -version
 ```
 
-
 ## 🚀 Build the project
 
 To compile and package the project, run:
@@ -40,18 +45,15 @@ To compile and package the project, run:
 mvn clean install
 ```
 
-
 ▶️ Running the application
 
 ```bash
-java -cp target/classes co.edu.escuelaing.microspringboot.MicroSpringBoot 
+java -cp target/classes co.edu.escuelaing.microspringboot.MicroSpringBoot
 ```
-
-
 
 ⚙️ How loadServices() works
 
-The `loadServices()` method in the `HttpServer` class  is responsible for scanning and registering available controllers:
+The `loadServices()` method in the `HttpServer` class is responsible for scanning and registering available controllers:
 
 Looks for compiled classes under co.edu.escuelaing.microspringboot.examples.
 
@@ -82,14 +84,12 @@ This modular structure facilitates server extension and maintenance, allowing ne
 
 Implementation of the @GetMapping annotation to mark the methods that will manage REST services and the @RequestParam annotation to extract query parameters from HTTP requests are in the `co.edu.escuelaing.microspringboot.annotations` package.
 
-
 # Unit tests
 
 <img width="2816" height="698" alt="image" src="https://github.com/user-attachments/assets/394527da-0a04-473a-bffe-b93edfc8a4c5" />
 
-
-
 # Prototype architecture
+
 ![Sin título (3)](https://github.com/user-attachments/assets/8f32e7bd-c195-438c-88ed-69fe0bdd2204)
 
 🏗️ Architecture Overview
@@ -152,17 +152,16 @@ The Client receives the response.
 
 # Modularization workshop with virtualization and introduction to Docker
 
-
 ### Concurrency and Graceful Shutdown in the Framework
 
 The framework implements a concurrent HTTP server using a thread pool (`ExecutorService`). Each time a new connection arrives, it is handled by a thread from the pool, allowing multiple clients to be served simultaneously and improving performance under load.
 
 For graceful termination, a Java shutdown hook (`Runtime.getRuntime().addShutdownHook`) is used. This hook is automatically triggered when the process receives a termination signal (for example, when Ctrl+C is pressed). The hook stops the main server loop, closes the `ServerSocket`, and waits for all threads to finish servicing active connections before terminating the process. This ensures that no requests in progress are lost and that resources.
 
-
-### Task development 
+### Task development
 
 In the root of the project, create a file named Dockerfile with the following content:
+
 ```
 FROM openjdk:17
 
@@ -182,7 +181,6 @@ Using the Docker command line tool, build the image:
 From the image created, create three instances of a docker container independent of the console (option “-d”) and with port 6000 linked to a physical port on the machine (option -p):
 
 <img width="1600" height="295" alt="image" src="https://github.com/user-attachments/assets/ab02329a-01a4-4a39-be6a-3b3d8488bb71" />
-
 
 Make sure the container is running
 <img width="1600" height="208" alt="image" src="https://github.com/user-attachments/assets/44089a11-326e-4247-a563-dc6ac87c8242" />
@@ -210,12 +208,11 @@ services:
     ports:
         - 27017:27017
     command: mongod
- 
+
 volumes:
   mongodb:
   mongodb_config:
 ```
-
 
 Run the docker compose:
 <img width="1600" height="737" alt="image" src="https://github.com/user-attachments/assets/fa444f65-5497-4405-aa62-ac399c578f38" />
@@ -223,18 +220,14 @@ Run the docker compose:
 Verify that the services were created:
 <img width="1600" height="267" alt="image" src="https://github.com/user-attachments/assets/c41959d5-c27d-4a87-805f-8079f512bad9" />
 
-
 in the containers section from the Docker Desktop dashboard:
 <img width="1600" height="952" alt="image" src="https://github.com/user-attachments/assets/2aba9554-37d9-4bf3-a8d2-99bd7db0b9bf" />
-
 
 Create the repository:
 <img width="1600" height="848" alt="image" src="https://github.com/user-attachments/assets/6fee37d1-4dc4-4616-8635-574d30f7cd9e" />
 
-
 In the local Docker engine, create a reference to the image with the name of the repository where it will be uploaded:
 <img width="1600" height="430" alt="image" src="https://github.com/user-attachments/assets/47723634-bc0c-4eaf-ad0b-800efbe8360c" />
-
 
 Login:
 
@@ -243,7 +236,7 @@ Login:
 Push the image to the repository on DockerHub
 
 ```
-docker push sergiobejarano/sergiotarealab04 
+docker push sergiobejarano/sergiotarealab04
 ```
 
 In the Tags tab of the repository on Dockerhub:
@@ -289,8 +282,6 @@ Accessing the web application deployed in a Docker container on AWS:
 
 <img width="1572" height="421" alt="image" src="https://github.com/user-attachments/assets/7c2a24ad-c1af-4a34-a180-1453f09d7329" />
 
-
 ## Author
 
 Sergio Bejarano
-
