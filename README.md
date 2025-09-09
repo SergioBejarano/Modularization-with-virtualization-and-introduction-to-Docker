@@ -197,6 +197,103 @@ The server wraps the result in an HttpResponse.
 
 The Client receives the response.
 
+# Modularization workshop with virtualization and introduction to Docker
+
+
+In the root of the project, create a file named Dockerfile with the following content:
+```
+FROM openjdk:17
+
+WORKDIR /usrapp/bin
+
+ENV PORT=6000
+
+COPY /target/classes /usrapp/bin/classes
+COPY /target/dependency /usrapp/bin/dependency
+
+CMD ["java","-cp","./classes:./dependency/*","co.edu.escuelaing.microspringboot.MicroSpringBoot"]
+```
+
+Using the Docker command line tool, build the image:
+<img width="1600" height="705" alt="image" src="https://github.com/user-attachments/assets/1cb1a42f-fea9-4abb-925d-048419dc683e" />
+
+From the image created, create three instances of a docker container independent of the console (option “-d”) and with port 6000 linked to a physical port on the machine (option -p):
+
+<img width="1600" height="295" alt="image" src="https://github.com/user-attachments/assets/ab02329a-01a4-4a39-be6a-3b3d8488bb71" />
+
+
+Make sure the container is running
+<img width="1600" height="208" alt="image" src="https://github.com/user-attachments/assets/44089a11-326e-4247-a563-dc6ac87c8242" />
+
+Access via your browser
+<img width="1600" height="895" alt="image" src="https://github.com/user-attachments/assets/a934f9b2-9b05-4367-982e-6132ef84d083" />
+
+Use docker-compose to automatically generate a docker configuration:
+
+```
+services:
+  web:
+    build:
+        context: .
+        dockerfile: Dockerfile
+    container_name: web
+    ports:
+        - "8087:6000"
+  db:
+    image: mongo:8-noble
+    container_name: db
+    volumes:
+      - mongodb:/data/db
+      - mongodb_config:/data/configdb
+    ports:
+        - 27017:27017
+    command: mongod
+ 
+volumes:
+  mongodb:
+  mongodb_config:
+```
+
+
+Run the docker compose:
+<img width="1600" height="737" alt="image" src="https://github.com/user-attachments/assets/fa444f65-5497-4405-aa62-ac399c578f38" />
+
+Verify that the services were created:
+<img width="1600" height="267" alt="image" src="https://github.com/user-attachments/assets/c41959d5-c27d-4a87-805f-8079f512bad9" />
+
+
+in the containers section from the Docker Desktop dashboard:
+<img width="1600" height="952" alt="image" src="https://github.com/user-attachments/assets/2aba9554-37d9-4bf3-a8d2-99bd7db0b9bf" />
+
+
+Create the repository:
+<img width="1600" height="848" alt="image" src="https://github.com/user-attachments/assets/6fee37d1-4dc4-4616-8635-574d30f7cd9e" />
+
+
+In the local Docker engine, create a reference to the image with the name of the repository where it will be uploaded:
+<img width="1600" height="430" alt="image" src="https://github.com/user-attachments/assets/47723634-bc0c-4eaf-ad0b-800efbe8360c" />
+
+
+Login:
+
+<img width="1600" height="268" alt="image" src="https://github.com/user-attachments/assets/a2ee9304-772f-41ca-9e69-12e48495ca71" />
+
+Push the image to the repository on DockerHub
+
+```
+docker push sergiobejarano/sergiotarealab04 
+```
+
+In the Tags tab of the repository on Dockerhub:
+<img width="1600" height="850" alt="image" src="https://github.com/user-attachments/assets/43def2d6-4cb5-4fbc-9ead-08e543c131e0" />
+
+<img width="2879" height="1461" alt="Captura de pantalla 2025-09-08 223652" src="https://github.com/user-attachments/assets/d71c54e5-f5a0-4d44-9c1e-f116962d61b4" />
+
+
+<img width="1600" height="676" alt="image" src="https://github.com/user-attachments/assets/4f803122-3024-4803-a96c-8b80c8e9dafe" />
+
+
+
 
 ## Author
 
