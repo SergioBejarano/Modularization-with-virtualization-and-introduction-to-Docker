@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Aplicación web</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Arquitecturas Empresariales - AREP</h1>
+    </header>
+
+    <main>
+        <section>
+            <p>Escribe tu nombre y recibirás un saludo (GET /greeting):</p>
+            <input type="text" id="name" placeholder="Tu nombre">
+            <button onclick="sendGreeting()">Enviar</button>
+            <div id="greetResponse"></div>
+        </section>
+
+        <hr>
+
+        <section>
+            <p>Escribe un número y obtén sus factores primos (GET /factors):</p>
+            <input type="number" id="factorsNumber" placeholder="Número">
+            <button onclick="getFactors()">Obtener factores</button>
+            <div id="factorsResponse"></div>
+        </section>
+
+        <hr>
+
+        <section>
+            <p>Escribe un número y obtén su cuadrado (GET /square):</p>
+            <input type="number" id="squareNumber" placeholder="Número">
+            <button onclick="getSquare()">Obtener cuadrado</button>
+            <div id="squareResponse"></div>
+        </section>
+    </main>
+
+    <section class="image-strip">
+        <img src="img/logo.jpg" alt="Logo izquierdo">
+        <img src="img/logo2.png" alt="Logo derecho">
+    </section>
+
+    <footer>
+        <p>Aplicación web con microframework - Por Sergio Bejarano</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
