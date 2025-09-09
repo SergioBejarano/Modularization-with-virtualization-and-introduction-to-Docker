@@ -42,18 +42,6 @@ mvn clean install
 
 
 ▶️ Running the application
-Running on a specific commit
-
-In earlier versions, it was necessary to explicitly specify the controller when starting the application:
-
-```bash
-java -cp target/classes co.edu.escuelaing.microspringboot.MicroSpringBoot co.edu.escuelaing.microspringboot.examples.GreetingController Starting MicroSpringBoot
-```
-
-Running on the latest commit
-
-With the current implementation, specifying the controller is no longer required.
-The framework automatically scans and registers all classes annotated with `@RestController` in the `examples` package.
 
 ```bash
 java -cp target/classes co.edu.escuelaing.microspringboot.MicroSpringBoot 
@@ -98,41 +86,6 @@ Implementation of the @GetMapping annotation to mark the methods that will manag
 # Unit tests
 
 <img width="2816" height="698" alt="image" src="https://github.com/user-attachments/assets/394527da-0a04-473a-bffe-b93edfc8a4c5" />
-
-
-# Testing...
-
-<img width="2879" height="1316" alt="image" src="https://github.com/user-attachments/assets/8944adc7-9687-46ed-8be4-5c181a0ecacd" />
-
-Go to `localhost:35000`:
-
-Console:
-
-<img width="2879" height="1682" alt="image" src="https://github.com/user-attachments/assets/12cb9f40-7661-4ffd-ba72-e63c4aa8064b" />
-
-
-Request: /app/greeting
-
-<img width="2879" height="1620" alt="image" src="https://github.com/user-attachments/assets/0e40b7f9-2c9b-4dd2-ac75-2033595a3793" />
-
-Request: /app/greeting?name=Sergio
-
-<img width="2879" height="1634" alt="image" src="https://github.com/user-attachments/assets/08510387-dd69-4f4b-8f4d-c3972ef67ac6" />
-
-<img width="934" height="213" alt="image" src="https://github.com/user-attachments/assets/cfa69e70-377f-427b-b6fe-3403125185a5" />
-
-Request: /app/factors?number=90
-
-<img width="2879" height="1624" alt="image" src="https://github.com/user-attachments/assets/ccaa39c0-3632-407c-a875-f285f5ce8eb3" />
-
-<img width="974" height="280" alt="image" src="https://github.com/user-attachments/assets/01739b54-7056-4e58-823c-0425d1adc930" />
-
-
-Request: /app/square?number=12
-
-<img width="2879" height="1640" alt="image" src="https://github.com/user-attachments/assets/79dade56-5661-4951-abe2-f354ccc1acbf" />
-
-<img width="896" height="214" alt="image" src="https://github.com/user-attachments/assets/f61cd30e-5d2e-4181-9e05-8b43071c10db" />
 
 
 
@@ -225,7 +178,7 @@ From the image created, create three instances of a docker container independent
 Make sure the container is running
 <img width="1600" height="208" alt="image" src="https://github.com/user-attachments/assets/44089a11-326e-4247-a563-dc6ac87c8242" />
 
-Access via your browser
+Access via browser:
 <img width="1600" height="895" alt="image" src="https://github.com/user-attachments/assets/a934f9b2-9b05-4367-982e-6132ef84d083" />
 
 Use docker-compose to automatically generate a docker configuration:
@@ -287,12 +240,45 @@ docker push sergiobejarano/sergiotarealab04
 In the Tags tab of the repository on Dockerhub:
 <img width="1600" height="850" alt="image" src="https://github.com/user-attachments/assets/43def2d6-4cb5-4fbc-9ead-08e543c131e0" />
 
+The EC2 instance is now created in AWS.
 <img width="2879" height="1461" alt="Captura de pantalla 2025-09-08 223652" src="https://github.com/user-attachments/assets/d71c54e5-f5a0-4d44-9c1e-f116962d61b4" />
 
+Access the virtual machine.
+
+Install Docker:
+
+```
+sudo yum update -y
+sudo yum install docker
+```
+
+Start the Docker service:
+
+```
+sudo service docker start
+```
+
+Configure the user in the Docker group:
+
+```
+sudo usermod -a -G docker ec2-user
+```
+
+From the image created in Dockerhub, create an instance of a docker container independent of the console (option “-d”) and with port 6000 linked to a physical port on your machine (option -p):
 
 <img width="1600" height="676" alt="image" src="https://github.com/user-attachments/assets/4f803122-3024-4803-a96c-8b80c8e9dafe" />
 
+Accessing the web application deployed in a Docker container on AWS:
 
+<img width="2879" height="1700" alt="image" src="https://github.com/user-attachments/assets/5a2d01e9-8482-4f74-b695-c6a6aabc89ed" />
+
+## Tests
+
+<img width="1455" height="465" alt="image" src="https://github.com/user-attachments/assets/dcc2679e-23c8-41aa-a63b-c6f99f58340c" />
+
+<img width="1858" height="434" alt="image" src="https://github.com/user-attachments/assets/471f98a3-44ec-4090-9bd7-902364fece57" />
+
+<img width="1572" height="421" alt="image" src="https://github.com/user-attachments/assets/7c2a24ad-c1af-4a34-a180-1453f09d7329" />
 
 
 ## Author
