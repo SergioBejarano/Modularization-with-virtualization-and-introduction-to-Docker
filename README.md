@@ -153,6 +153,15 @@ The Client receives the response.
 # Modularization workshop with virtualization and introduction to Docker
 
 
+### Concurrency and Graceful Shutdown in the Framework
+
+The framework implements a concurrent HTTP server using a thread pool (`ExecutorService`). Each time a new connection arrives, it is handled by a thread from the pool, allowing multiple clients to be served simultaneously and improving performance under load.
+
+For graceful termination, a Java shutdown hook (`Runtime.getRuntime().addShutdownHook`) is used. This hook is automatically triggered when the process receives a termination signal (for example, when Ctrl+C is pressed). The hook stops the main server loop, closes the `ServerSocket`, and waits for all threads to finish servicing active connections before terminating the process. This ensures that no requests in progress are lost and that resources.
+
+
+### Task development 
+
 In the root of the project, create a file named Dockerfile with the following content:
 ```
 FROM openjdk:17
