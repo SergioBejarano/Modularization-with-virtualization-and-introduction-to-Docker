@@ -19,6 +19,14 @@ The custom framework implements:
 
 The included example application shows how to expose a POJO as a REST service and how to serve static files from the server.
 
+# 📷 Videos
+
+There are two videos in `/src/main/resources/webroot` inside videos.zip.
+
+`despliegue TALLER EN CLASE.mp4`: evidence of the deployment of the application developed in class, it only has the /greeting service.
+
+`deployment TAREA.mp4`: evidence of the functioning of the deployment of the application developed as homework, it has several services. This was developed WITHOUT SPRING.
+
 ## Verifying Java and Maven Versions
 
 Before compiling or running this project, make sure that both **Java** and **Maven** are properly installed and configured on the system.
